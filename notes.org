@@ -1,3 +1,4 @@
+
 * Row-major
 
 ** Matrix multiplication

@@ -51,24 +51,48 @@ at the unit tests.
 
 * Reporting bugs
 
-Please report bugs using [[https://github.com/tpapp/lla/issues][Github's issue tracker]].  Small self-contained examples are appreciated when applicable, otherwise please try to provide a backtrace.  Feel free to submit efficiency/wishlist bugs too: if you need an interface for a particular LAPACK routine I will be happy to help with that and then possibly incorporate it into LLA.
+Please report bugs using [[https://github.com/tpapp/lla/issues][Github's issue tracker]].  Small self-contained
+examples are appreciated when applicable, otherwise please try to
+provide a backtrace.  Feel free to submit efficiency/wishlist bugs
+too: if you need an interface for a particular LAPACK routine I will
+be happy to help with that and then possibly incorporate it into LLA.
 
 
 * Configuration
 
-Certain features of LLA can be configured before loading using the plist =*lla-configuration*= in the =CL-USER= package (for example, on SBCL you would do it in your =~/.sbclrc=).  The following properties are supported:
+Certain features of LLA can be configured before loading using the
+plist =*lla-configuration*= in the =CL-USER= package (for example, on
+SBCL you would do it in your =~/.sbclrc=).  The following properties
+are supported:
 
 - =:libraries=
 
-  A list of objects, passed directly to =cffi:load-foreign-library=.  You can use strings, paths, or even symbols if you have defined these libraries using =cffi:define-foreign-library=.  If you don't define this, a reasonable platform-dependent default will be used.  See the next section for details.
+  A list of objects, passed directly to =cffi:load-foreign-library=.
+  You can use strings, paths, or even symbols if you have defined
+  these libraries using =cffi:define-foreign-library=.  If you don't
+  define this, a reasonable platform-dependent default will be used.
+  See the next section for details.
 
 - =:int64=
 
-  This makes LLA use 64-bit integers for array dimensions, pivot indices and other integer values passed to BLAS/LAPACK functions.  *Only use this if you are sure that your libraries have been compiled with 64-bit integers*.  The fact that you have a 64-bit platform does not necessarily mean that this is the case, in fact, it is still quite rare.  Unless told otherwise, LLA expectes BLAS/LAPACK to use the [[http://en.wikipedia.org/wiki/64-bit#64-bit_data_models][(L)LP64 model]] for integers -- that is to say, integer types in Fortran are 32 bit.
+  This makes LLA use 64-bit integers for array dimensions, pivot
+  indices and other integer values passed to BLAS/LAPACK functions.
+  *Only use this if you are sure that your libraries have been
+  compiled with 64-bit integers*.  The fact that you have a 64-bit
+  platform does not necessarily mean that this is the case, in fact,
+  it is still quite rare.  Unless told otherwise, LLA expectes
+  BLAS/LAPACK to use the [[http://en.wikipedia.org/wiki/64-bit#64-bit_data_models][(L)LP64 model]] for integers -- that is to say,
+  integer types in Fortran are 32 bit.
 
 - =:efficiency-warnings=
 
-  Enable the *possibility* of efficiency warnings at compile time.  You still have to set the appropriate flags, but without this option, they won't even be checked.  There are two properties you can set: =:array-type= and =:array-conversion=.  The first warns whenever an array has to be walked elementwise to determine its type, the second when some arrays need to be converted to a common type.
+  Enable the *possibility* of efficiency warnings at compile time.
+  You still have to set the appropriate flags, but without this
+  option, they won't even be checked.  There are two properties you
+  can set: =:array-type= and =:array-conversion=.  The first warns
+  whenever an array has to be walked elementwise to determine its
+  type, the second when some arrays need to be converted to a common
+  type.
 
   Example:
 
@@ -90,9 +114,13 @@ Certain features of LLA can be configured before loading using the plist =*lla-c
 
 ** Dependencies and configuration
 
-LLA needs BLAS and LAPACK shared libraries to work.  When it comes to loading libraries, LLA tries to pick a sensible default for each platform, but in case it fails, you need to tell LLA where the libraries are before loading.
+LLA needs BLAS and LAPACK shared libraries to work.  When it comes to
+loading libraries, LLA tries to pick a sensible default for each
+platform, but in case it fails, you need to tell LLA where the
+libraries are before loading.
 
-You can do this by putting something like this in your startup script (eg =~/.sbclrc=, the symbol needs to be in the package =cl-user=):
+You can do this by putting something like this in your startup script
+(eg =~/.sbclrc=, the symbol needs to be in the package =cl-user=):
 
 #+BEGIN_SRC lisp
 (defvar *lla-configuration*
@@ -103,13 +131,15 @@ You can do this by putting something like this in your startup script (eg =~/.sb
 
 ** Debian
 
-On Debian-based distributions, it is very likely that LLA will work out of the box if you just install ATLAS, eg
+On Debian-based distributions, it is very likely that LLA will work
+out of the box if you just install ATLAS, eg
 
 #+BEGIN_EXAMPLE
 apt-get install libatlas3gf-base
 #+END_EXAMPLE
 
-However, you may want to build a version optimized for your architecture.
+However, you may want to build a version optimized for your
+architecture.
 
 *** Building ATLAS on Debian
 
@@ -158,14 +188,20 @@ should work.
 
 * Acknowledgements
 
-LLA was inspired by packages written by AJ Rossini, Rif, Mark Hoemmen and others.  I have borrowed code (whenever allowed by their licenses) and ideas freely from all of them.
+LLA was inspired by packages written by AJ Rossini, Rif, Mark Hoemmen
+and others.  I have borrowed code (whenever allowed by their licenses)
+and ideas freely from all of them.
 
-Gábor Melis made substantial contributions to the library, especially the low-level pinning interface and the destructive BLAS routines.
+Gábor Melis made substantial contributions to the library, especially
+the low-level pinning interface and the destructive BLAS routines.
 
 
 * Suggested editor settings for code contributions
 
-No line breaks in (doc)strings, otherwise try to keep it within 80 columns.  Remove trailing whitespace.  'modern' coding style.  Suggested Emacs snippet:
+No line breaks in (doc)strings, otherwise try to keep it within 80
+columns.  Remove trailing whitespace.  'modern' coding style.
+Suggested Emacs snippet:
+
 #+BEGIN_SRC emacs-lisp
   (set-fill-column 9999)
   (font-lock-add-keywords nil
